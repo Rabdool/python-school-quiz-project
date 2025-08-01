@@ -3,12 +3,14 @@ class QuizGame:
         self.questions = [
             "What is the capital of Nigeria?",
             "Who is the president of Nigeria?", 
-            "What is the role of EFCC in Nigeria?"
+            "What is the role of EFCC in Nigeria?",
+            "What is my name?"
         ]
         self.answers = [
             "Abuja",
             "Ahmed Bola Tinubu", 
-            "Investigating Financial Crimes"
+            "Investigating Financial Crimes",
+            "Oluwaseun Adebayo"
         ]
         self.score = 0
     
