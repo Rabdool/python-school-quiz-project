@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subdomain Discovery Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .scan-button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3);
+        }
+
+        .scan-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            padding: 40px;
+            background: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .results-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e6ed;
+        }
+
+        .results-header h2 {
+            color: #2c3e50;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .results-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subdomain-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .subdomain-item {
+            background: #fff;
+            border: 1px solid #e0e6ed;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subdomain-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #3498db;
+        }
+
+        .subdomain-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+
+        .subdomain-method {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e6ed;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-results i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .error-message {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c44;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Subdomain Discovery Tool</h1>
+            <p>Discover subdomains using advanced techniques and comprehensive wordlists</p>
+        </div>
+
+        <div class="input-section">
+            <form id="scanForm">
+                <div class="form-group">
+                    <label for="domainInput">Target Domain</label>
+                    <input type="text" id="domainInput" placeholder="example.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="methodSelect">Scan Method</label>
+                    <select id="methodSelect">
+                        <option value="wordlist">Wordlist Scan</option>
+                        <option value="comprehensive">Comprehensive (includes CT logs)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="scan-button" id="scanBtn">
+                    Start Subdomain Scan
+                </button>
+            </form>
+        </div>
+
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <div id="loadingDiv" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <h3>Scanning for subdomains...</h3>
+                <p id="progressText">Initializing scan...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="resultsDiv" style="display: none;">
+                <div class="results-header">
+                    <h2>Scan Results</h2>
+                    <div class="results-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="foundCount">0</span>
+                            <span class="stat-label">Subdomains Found</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="scanTime">0s</span>
+                            <span class="stat-label">Scan Duration</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="targetDomain">-</span>
+                            <span class="stat-label">Target Domain</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="subdomainList" class="subdomain-list"></div>
+
+                <div id="noResults" class="no-results" style="display: none;">
+                    <div style="font-size: 4em; margin-bottom: 20px; opacity: 0.5;">🔍</div>
+                    <h3>No subdomains found</h3>
+                    <p>Try a different domain or scanning method</p>
+                </div>
+            </div>
+
+            <div id="errorDiv" style="display: none;">
+                <div class="error-message" id="errorMessage"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SubdomainFinder {
+            constructor() {
+                this.wordlist = [
+                    'www', 'mail', 'ftp', 'localhost', 'webmail', 'smtp', 'pop', 'ns1', 'webdisk', 'ns2',
+                    'cpanel', 'whm', 'autodiscover', 'autoconfig', 'mx', 'imap', 'pop3', 'mobile', 'api',
+                    'dev', 'staging', 'test', 'admin', 'blog', 'shop', 'forum', 'support', 'cdn', 'assets',
+                    'images', 'img', 'static', 'media', 'secure', 'ssl', 'vpn', 'portal', 'app', 'apps',
+                    'beta', 'alpha', 'demo', 'git', 'svn', 'cvs', 'wiki', 'docs', 'news', 'store',
+                    'crm', 'erp', 'helpdesk', 'kb', 'internal', 'intranet', 'extranet', 'remote',
+                    'old', 'new', 'backup', 'archive', 'mirror', 'download', 'downloads', 'files',
+                    'service', 'services', 'chat', 'conference', 'video', 'voice', 'call', 'sip',
+                    'search', 'status', 'monitor', 'stats', 'analytics', 'track', 'tracking',
+                    'client', 'customer', 'partner', 'vendor', 'supplier', 'public', 'private',
+                    'staging2', 'staging3', 'test2', 'test3', 'dev2', 'dev3', 'qa', 'uat',
+                    'preprod', 'production', 'prod', 'live', 'preview', 'stage', 'sandbox',
+                    'us', 'eu', 'asia', 'uk', 'ca', 'au', 'de', 'fr', 'jp', 'cn', 'in',
+                    'east', 'west', 'north', 'south', 'central', 'global', 'local',
+                    '1', '2', '3', '4', '5', 'v1', 'v2', 'v3', 'v4', 'v5',
+                    'ios', 'android', 'mobile', 'app', 'apps', 'play', 'download',
+                    'social', 'facebook', 'twitter', 'linkedin', 'instagram', 'youtube',
+                    'login', 'signin', 'signup', 'register', 'auth', 'oauth', 'sso',
+                    'dashboard', 'panel', 'console', 'manage', 'account', 'profile',
+                    'help', 'faq', 'contact', 'about', 'legal', 'privacy', 'terms',
+                    'careers', 'jobs', 'press', 'media', 'investor', 'ir'
+                ];
+
+                this.foundSubdomains = new Set();
+            }
+
+            sanitizeDomain(domain) {
+                domain = domain.replace(/^https?:\/\//, '');
+                domain = domain.replace(/^www\./, '');
+                domain = domain.split('/')[0];
+                domain = domain.split(':')[0];
+                return domain.toLowerCase().trim();
+            }
+
+            isValidDomain(domain) {
+                const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])*$/;
+                return pattern.test(domain);
+            }
+
+            async checkSubdomainHTTP(subdomain, domain) {
+                const fullDomain = `${subdomain}.${domain}`;
+
+                for (const protocol of ['https', 'http']) {
+                    try {
+                        const url = `${protocol}://${fullDomain}`;
+                        const response = await fetch(url, {
+                            method: 'HEAD',
+                            mode: 'no-cors',
+                            timeout: 5000
+                        });
+
+                        return {
+                            subdomain: fullDomain,
+                            method: 'HTTP',
+                            protocol: protocol.toUpperCase(),
+                            found: true
+                        };
+                    } catch (error) {
+                    }
+                }
+
+                return null;
+            }
+
+            async getCertificateTransparencySubdomains(domain) {
+                try {
+                    const url = `https://crt.sh/?q=%.${domain}&output=json`;
+                    const response = await fetch(url);
+
+                    if (response.ok) {
+                        const certificates = await response.json();
+                        const ctSubdomains = new Set();
+
+                        for (const cert of certificates) {
+                            const nameValue = cert.name_value || '';
+                            for (const domainName of nameValue.split('\n')) {
+                                const cleanDomain = domainName.trim();
+                                if (cleanDomain.endsWith(`.${domain}`) && cleanDomain.includes('.')) {
+                                    const subdomainPart = cleanDomain.replace(`.${domain}`, '');
+                                    if (subdomainPart && !subdomainPart.startsWith('*')) {
+                                        ctSubdomains.add(cleanDomain);
+                                    }
+                                }
+                            }
+                        }
+
+                        return Array.from(ctSubdomains);
+                    }
+                } catch (error) {
+                }
+
+                return [];
+            }
+
+            updateProgress(current, total, message) {
+                const percent = (current / total) * 100;
+                document.getElementById('progressFill').style.width = `${percent}%`;
+                document.getElementById('progressText').textContent = `${message} (${current}/${total})`;
+            }
+
+            async runScan(domain, method = 'wordlist') {
+                const cleanDomain = this.sanitizeDomain(domain);
+
+                if (!this.isValidDomain(cleanDomain)) {
+                    throw new Error('Invalid domain format');
+                }
+
+                const startTime = Date.now();
+                const results = [];
+
+                document.getElementById('loadingDiv').style.display = 'block';
+                document.getElementById('resultsDiv').style.display = 'none';
+                document.getElementById('errorDiv').style.display = 'none';
+
+                try {
+                    let subdomainsToCheck = [...this.wordlist];
+
+                    if (method === 'comprehensive') {
+                        this.updateProgress(0, 100, 'Checking Certificate Transparency logs...');
+                        const ctSubdomains = await this.getCertificateTransparencySubdomains(cleanDomain);
+
+                        for (const ctDomain of ctSubdomains) {
+                            const subdomainPart = ctDomain.replace(`.${cleanDomain}`, '');
+                            if (subdomainPart && !subdomainsToCheck.includes(subdomainPart)) {
+                                subdomainsToCheck.push(subdomainPart);
+                            }
+                        }
+                    }
+
+                    const total = subdomainsToCheck.length;
+                    const batchSize = 20;
+
+                    for (let i = 0; i < total; i += batchSize) {
+                        const batch = subdomainsToCheck.slice(i, i + batchSize);
+                        const promises = batch.map(subdomain =>
+                            this.checkSubdomainHTTP(subdomain, cleanDomain)
+                        );
+
+                        const batchResults = await Promise.all(promises);
+
+                        for (const result of batchResults) {
+                            if (result) {
+                                results.push(result);
+                                this.foundSubdomains.add(result.subdomain);
+                            }
+                        }
+
+                        this.updateProgress(
+                            Math.min(i + batchSize, total),
+                            total,
+                            'Scanning subdomains...'
+                        );
+
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+
+                } catch (error) {
+                    throw error;
+                }
+
+                const endTime = Date.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2);
+
+                return {
+                    domain: cleanDomain,
+                    results: results,
+                    duration: duration,
+                    total: results.length
+                };
+            }
+        }
+
+        const scanForm = document.getElementById('scanForm');
+        const domainInput = document.getElementById('domainInput');
+        const methodSelect = document.getElementById('methodSelect');
+        const scanBtn = document.getElementById('scanBtn');
+        const resultsSection = document.getElementById('resultsSection');
+        const loadingDiv = document.getElementById('loadingDiv');
+        const resultsDiv = document.getElementById('resultsDiv');
+        const errorDiv = document.getElementById('errorDiv');
+        const subdomainList = document.getElementById('subdomainList');
+        const noResults = document.getElementById('noResults');
+
+        const scanner = new SubdomainFinder();
+
+        scanForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const domain = domainInput.value.trim();
+            const method = methodSelect.value;
+
+            if (!domain) {
+                alert('Please enter a domain');
+                return;
+            }
+
+            scanBtn.disabled = true;
+            scanBtn.textContent = 'Scanning...';
+            resultsSection.style.display = 'block';
+
+            try {
+                const scanResults = await scanner.runScan(domain, method);
+                displayResults(scanResults);
+            } catch (error) {
+                displayError(error.message);
+            } finally {
+                scanBtn.disabled = false;
+                scanBtn.textContent = 'Start Subdomain Scan';
+            }
+        });
+
+        function displayResults(scanResults) {
+            loadingDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+
+            document.getElementById('foundCount').textContent = scanResults.total;
+            document.getElementById('scanTime').textContent = `${scanResults.duration}s`;
+            document.getElementById('targetDomain').textContent = scanResults.domain;
+
+            if (scanResults.total === 0) {
+                resultsDiv.style.display = 'block';
+                noResults.style.display = 'block';
+                subdomainList.style.display = 'none';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            subdomainList.style.display = 'grid';
+            subdomainList.innerHTML = '';
+
+            scanResults.results.forEach(result => {
+                const item = document.createElement('div');
+                item.className = 'subdomain-item';
+
+                item.innerHTML = `
+                    <div class="subdomain-name">${result.subdomain}</div>
+                    <span class="subdomain-method">${result.method}</span>
+                    ${result.protocol ? `<span class="subdomain-method" style="background: #27ae60; margin-left: 5px;">${result.protocol}</span>` : ''}
+                `;
+
+                subdomainList.appendChild(item);
+            });
+
+            resultsDiv.style.display = 'block';
+        }
+
+        function displayError(message) {
+            loadingDiv.style.display = 'none';
+            resultsDiv.style.display = 'none';
+            errorDiv.style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+        }
+    </script>
+</body>
+
+</html>
