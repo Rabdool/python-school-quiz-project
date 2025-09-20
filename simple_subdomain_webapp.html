@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Subdomain Finder</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: linear-gradient(135deg, #667eea, #f5576c);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fffccfdd;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px #0002;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #f093fb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .notice {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #92400e;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-section input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            font-size: 1rem;
+        }
+
+        .scan-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .scan-btn:disabled {
+            opacity: .6;
+        }
+
+        .progress-section {
+            display: none;
+            background: #eff6ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-container {
+            background: #bfdbfe;
+            border-radius: 8px;
+            height: 10px;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+            border-radius: 8px;
+            transition: .3s;
+            width: 0%;
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card.total {
+            background: #60a5fa;
+            color: #fff;
+        }
+
+        .stat-card.found {
+            background: #34d399;
+            color: #fff;
+        }
+
+        .stat-card.not-found {
+            background: #f87171;
+            color: #fff;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .subdomain-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px #0001;
+            border-left: 4px solid #10b981;
+        }
+
+        .subdomain-name {
+            font-weight: 700;
+        }
+
+        .found-badge {
+            background: #10b981;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: .85rem;
+        }
+
+        .log-section {
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .scan-log {
+            background: #1a1a1a;
+            color: #00ff41;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: .9rem;
+            height: 120px;
+            overflow-y: auto;
+        }
+
+        .log-entry.error {
+            color: #ff6b6b;
+        }
+
+        .log-entry.success {
+            color: #51cf66;
+        }
+
+        @media(max-width:600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .input-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Simple Subdomain Finder</h1>
+            <div class="notice"><b>Demo:</b> Simulated data only.</div>
+        </div>
+        <div class="input-section">
+            <input id="domainInput" placeholder="example.com" value="google.com">
+            <button id="scanBtn" class="scan-btn" onclick="startScan()">Start Scan</button>
+        </div>
+        <div id="progressSection" class="progress-section">
+            <div><span id="progressText">0/0</span></div>
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <div id="currentScan" style="font-size:.95rem"></div>
+        </div>
+        <div id="resultsSection" class="results-section">
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-number" id="totalScanned">0</div>
+                    <div>Total</div>
+                </div>
+                <div class="stat-card found">
+                    <div class="stat-number" id="totalFound">0</div>
+                    <div>Found</div>
+                </div>
+                <div class="stat-card not-found">
+                    <div class="stat-number" id="totalNotFound">0</div>
+                    <div>Not Found</div>
+                </div>
+            </div>
+            <div><b>Found Subdomains</b> <button id="downloadBtn" class="scan-btn"
+                    onclick="downloadResults()">Download</button></div>
+            <div id="subdomainsList"></div>
+            <div class="log-section">
+                <div class="scan-log" id="scanLog"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const WORDLIST = ['www', 'mail', 'ftp', 'admin', 'test', 'blog', 'dev', 'shop', 'api', 'cdn', 'static', 'media', 'secure', 'mobile', 'app', 'support', 'help', 'news', 'forum', 'store', 'beta', 'demo', 'portal', 'login', 'dashboard', 'cpanel', 'webmail', 'mx', 'ns1', 'ns2', 'pop', 'smtp', 'imap', 'staging', 'prod'];
+        let scanResults = [], currentDomain = '';
+        function mockIP() { return `${~~(Math.random() * 256)}.${~~(Math.random() * 256)}.${~~(Math.random() * 256)}.${~~(Math.random() * 256)}`; }
+        function mockResult(sub, dom) { let f = Math.random() > .65; return f ? { subdomain: `${sub}.${dom}`, ip: mockIP(), status: Math.random() > .2 ? 200 : 404, found: 1 } : { subdomain: `${sub}.${dom}`, found: 0 }; }
+        function logMsg(msg, t) { let d = document.getElementById('scanLog'), e = document.createElement('div'); e.className = 'log-entry' + (t ? ' ' + t : ''); e.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`; d.appendChild(e); d.scrollTop = d.scrollHeight; }
+        function updProg(c, t) { let p = Math.round(c / t * 100); document.getElementById('progressBar').style.width = p + '%'; document.getElementById('progressText').textContent = `${c}/${t} (${p}%)`; }
+        function updStats() { let f = scanResults.filter(r => r.found).length, n = scanResults.length - f; document.getElementById('totalScanned').textContent = scanResults.length; document.getElementById('totalFound').textContent = f; document.getElementById('totalNotFound').textContent = n; }
+        function showResult(r) { if (r.found) { let d = document.createElement('div'); d.className = 'subdomain-card'; d.innerHTML = `<span class="subdomain-name">${r.subdomain}</span> <span class="found-badge">✓</span><br><small>IP: ${r.ip} | Status: ${r.status}</small>`; document.getElementById('subdomainsList').appendChild(d); } }
+        async function startScan() {
+            let domain = document.getElementById('domainInput').value.trim(), btn = document.getElementById('scanBtn');
+            if (!domain) return alert('Enter a domain');
+            scanResults = [];['subdomainsList', 'scanLog'].forEach(id => document.getElementById(id).innerHTML = '');
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'block';
+            btn.disabled = 1; btn.textContent = 'Scanning...'; currentDomain = domain;
+            logMsg(`Starting scan for: ${domain}`, 'success'); logMsg(`Total: ${WORDLIST.length}`); logMsg('='.repeat(30));
+            for (let i = 0; i < WORDLIST.length; i++) {
+                let sub = WORDLIST[i], full = `${sub}.${domain}`; document.getElementById('currentScan').textContent = `Checking: ${full}`;
+                logMsg(`Checking ${i + 1}/${WORDLIST.length}: ${full}`);
+                await new Promise(r => setTimeout(r, 80));
+                let res = mockResult(sub, domain); scanResults.push(res);
+                if (res.found) { logMsg(`FOUND! ${res.subdomain} (${res.ip}) - ${res.status}`, 'success'); showResult(res); }
+                else logMsg(`Not found: ${res.subdomain}`, 'error');
+                updProg(i + 1, WORDLIST.length); updStats();
+            }
+            document.getElementById('currentScan').textContent = 'Scan completed!';
+            logMsg('='.repeat(30)); logMsg(`Scan completed! Found ${scanResults.filter(r => r.found).length}.`, 'success');
+            btn.disabled = 0; btn.textContent = 'Start New Scan';
+        }
+        function downloadResults() {
+            let found = scanResults.filter(r => r.found); if (!found.length) return alert('No results');
+            let c = `Subdomain Scan Results for: ${currentDomain}\nScan Date: ${new Date().toLocaleString()}\nTotal Found: ${found.length}\n${'='.repeat(30)}\n\n`;
+            found.forEach((r, i) => { c += `${i + 1}. ${r.subdomain}\n   IP: ${r.ip}\n   Status: ${r.status}\n${'-'.repeat(20)}\n`; });
+            let blob = new Blob([c], { type: 'text/plain' }), url = URL.createObjectURL(blob), a = document.createElement('a');
+            a.href = url; a.download = `subdomains_${currentDomain}_${Date.now()}.txt`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        }
+        document.getElementById('domainInput').addEventListener('keypress', e => { if (e.key === 'Enter') startScan(); });
+        document.getElementById('domainInput').focus();
+    </script>
+</body>
+
+</html>
