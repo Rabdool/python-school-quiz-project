@@ -1,0 +1,493 @@
+{
+  "domain": "google.com",
+  "scan_time": "2025-09-20 11:47:50",
+  "total_found": 81,
+  "subdomains": [
+    {
+      "subdomain": "about.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "account.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "accounts.google.com",
+      "ip": "74.125.138.84",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "admin.google.com",
+      "ip": "64.233.185.102",
+      "method": "DNS",
+      "status": 204,
+      "protocol": "http",
+      "server": "HTTP server (unknown)"
+    },
+    {
+      "subdomain": "adwords.google.com",
+      "ip": "74.125.133.102",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt1.aspmx.l.google.com",
+      "ip": "192.178.156.27",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt1.gmail-smtp-in.l.google.com",
+      "ip": "192.178.131.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt1.gmr-smtp-in.l.google.com",
+      "ip": "192.178.156.14",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt2.aspmx.l.google.com",
+      "ip": "142.250.147.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt2.gmail-smtp-in.l.google.com",
+      "ip": "209.85.144.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt2.gmr-smtp-in.l.google.com",
+      "ip": "142.250.147.14",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt3.aspmx.l.google.com",
+      "ip": "74.125.131.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt3.gmail-smtp-in.l.google.com",
+      "ip": "108.177.11.27",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt3.gmr-smtp-in.l.google.com",
+      "ip": "108.177.11.14",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt4.aspmx.l.google.com",
+      "ip": "192.178.218.27",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt4.gmail-smtp-in.l.google.com",
+      "ip": "192.178.218.27",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "alt4.gmr-smtp-in.l.google.com",
+      "ip": "142.250.4.14",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "analytics.google.com",
+      "ip": "216.239.32.181",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "answers.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "api.google.com",
+      "ip": "142.250.105.105",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "apps.google.com",
+      "ip": "142.250.179.142",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "apps.google.com",
+      "ip": "142.250.179.142",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "http",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "archive.google.com",
+      "ip": "142.250.178.174",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "asia.google.com",
+      "ip": "216.58.223.196",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "http",
+      "server": "gws"
+    },
+    {
+      "subdomain": "aspmx.l.google.com",
+      "ip": "64.233.166.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "audioads.google.com",
+      "ip": "173.194.219.138",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "blog.google.com",
+      "ip": "142.250.201.73",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "careers.google.com",
+      "ip": "142.250.105.101",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "cert-test.sandbox.google.com",
+      "ip": "74.125.133.90",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "chat.google.com",
+      "ip": "142.251.15.138",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "cod.ext.google.com",
+      "ip": "216.239.44.73",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "dns.google.com",
+      "ip": "8.8.4.4",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "scaffolding on HTTPServer2"
+    },
+    {
+      "subdomain": "docs.google.com",
+      "ip": "142.250.185.14",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "download.google.com",
+      "ip": "142.250.179.100",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "download.google.com",
+      "ip": "142.250.179.100",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "downloads.google.com",
+      "ip": "142.250.179.100",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "ecc-test.sandbox.google.com",
+      "ip": "173.194.76.81",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "eggroll.ext.google.com",
+      "ip": "216.239.44.90",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "files.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "gmail-smtp-in.l.google.com",
+      "ip": "173.194.219.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "gmail.google.com",
+      "ip": "142.250.179.142",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "gmr-smtp-in.l.google.com",
+      "ip": "108.177.15.14",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "help.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "images.google.com",
+      "ip": "142.250.9.138",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "gws"
+    },
+    {
+      "subdomain": "jmt0.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "jobs.google.com",
+      "ip": "142.250.179.142",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "login.corp.google.com",
+      "ip": "74.125.138.129",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "m.google.com",
+      "ip": "142.250.200.139",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "m.gutsdev.corp.google.com",
+      "ip": "142.250.27.129",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "mail.google.com",
+      "ip": "172.253.124.17",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "mobile.google.com",
+      "ip": "142.250.200.139",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "mobile.google.com",
+      "ip": "142.250.200.139",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "http",
+      "server": "gws"
+    },
+    {
+      "subdomain": "mtalk.google.com",
+      "ip": "64.233.176.188",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "mtv-da.ext.google.com",
+      "ip": "216.239.45.170",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "news.google.com",
+      "ip": "142.250.184.174",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "ns1.google.com",
+      "ip": "216.239.32.10",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "ns2.google.com",
+      "ip": "216.239.34.10",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "ns3.google.com",
+      "ip": "216.239.36.10",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "ns4.google.com",
+      "ip": "216.239.38.10",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "play.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "privacy.google.com",
+      "ip": "108.177.122.138",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "http",
+      "server": "sffe"
+    },
+    {
+      "subdomain": "profile.google.com",
+      "ip": "142.250.184.14",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "proxyconfig.corp.google.com",
+      "ip": "74.125.138.129",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "sandbox.google.com",
+      "ip": "142.251.168.81",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "search.google.com",
+      "ip": "142.250.179.142",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "gws"
+    },
+    {
+      "subdomain": "services.google.com",
+      "ip": "142.250.201.78",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "gws"
+    },
+    {
+      "subdomain": "shop.google.com",
+      "ip": "66.102.1.92",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "smtp.google.com",
+      "ip": "142.250.9.26",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "soaproxyprod01.ext.google.com",
+      "ip": "72.14.225.70",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "soaproxytest01.ext.google.com",
+      "ip": "216.239.44.94",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "store.google.com",
+      "ip": "142.250.184.14",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "support.google.com",
+      "ip": "216.58.223.206",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "twd-da.ext.google.com",
+      "ip": "72.14.229.178",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "uberproxy.corp.google.com",
+      "ip": "74.125.138.129",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "ESF"
+    },
+    {
+      "subdomain": "upload.google.com",
+      "ip": "142.250.184.15",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "upload.video.google.com",
+      "ip": "142.250.9.117",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "video.google.com",
+      "ip": "64.233.176.102",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "http",
+      "server": "gws"
+    },
+    {
+      "subdomain": "voice.google.com",
+      "ip": "142.250.200.78",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "vpn.google.com",
+      "ip": "64.9.224.68",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "wifi.google.com",
+      "ip": "108.177.15.123",
+      "method": "DNS"
+    },
+    {
+      "subdomain": "www.google.com",
+      "ip": "74.125.138.105",
+      "method": "DNS",
+      "status": 200,
+      "protocol": "https",
+      "server": "gws"
+    }
+  ]
+}
